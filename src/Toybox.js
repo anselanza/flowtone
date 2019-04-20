@@ -67,12 +67,36 @@ class Toybox extends Component {
     });
   }
 
+  startAll = () => {
+    nodes.forEach(n => {
+      if (n.toneRef.start !== undefined) {
+        console.log('start', n);
+        n.toneRef.start();
+      }
+    });
+  }
+
+  stopAll = () => {
+    nodes.forEach(n => {
+      if (n.toneRef.stop !== undefined) {
+        n.toneRef.stop();
+      }
+    });
+
+  }
+
   render() {
     return (
       <div className="Toybox">
-        Toybox
-        <code>widgets: {JSON.stringify(this.props.widgets)}</code>
-        <code>connections {JSON.stringify(this.props.connections)}</code>
+        <h2>Toybox</h2>
+        <div>
+          <code>widgets: {JSON.stringify(this.props.widgets)}</code>
+          <code>connections {JSON.stringify(this.props.connections)}</code>
+        </div>
+        <div>
+          <button onClick={() => this.startAll()}>Start</button>
+          <button onClick={() => this.stopAll()}>Stop</button>
+        </div>
       </div>
     );
   }
