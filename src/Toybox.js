@@ -60,7 +60,7 @@ class Toybox extends Component {
         console.log('destination master; connect', source.id, 'to Tone.Master');
           source.node.toneRef.connect(Tone.Master);
       } else {
-        console.log('connect', source, 'to', destination);
+        console.log('connect', source.widget, 'to', destination.widget);
         source.node.toneRef.connect(destination.node.toneRef);
       }
 
@@ -90,8 +90,12 @@ class Toybox extends Component {
       <div className="Toybox">
         <h2>Toybox</h2>
         <div>
-          <code>widgets: {JSON.stringify(this.props.widgets)}</code>
-          <code>connections {JSON.stringify(this.props.connections)}</code>
+          <div>
+            <code>widgets: {JSON.stringify(this.props.widgets)}</code>
+          </div>
+          <div>
+            <code>connections: {JSON.stringify(this.props.connections)}</code>
+          </div>
         </div>
         <div>
           <button onClick={() => this.startAll()}>Start</button>
