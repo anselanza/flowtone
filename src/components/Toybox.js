@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 import Tone from 'tone';
+
+const mapStateToProps = state => state;
 
 const size = 100;
 
@@ -15,6 +18,7 @@ const widgetPosition = (widget, index) =>
 
 const drawWidget = (w, index) =>
   <Group 
+    key={w.id}
     position= {widgetPosition(w, index)}
     draggable
     >
@@ -115,21 +119,13 @@ class Toybox extends Component {
   render = () => 
     <div className="Toybox">
       <h2>Toybox</h2>
-      <div>
-        <div>
-          <code>widgets: {JSON.stringify(this.props.widgets)}</code>
-        </div>
-        <div>
-          <code>connections: {JSON.stringify(this.props.connections)}</code>
-        </div>
-      </div>
-      <div>
-        <Stage width={window.innerWidth} height={window.innerHeight} >
-          <Layer>
-            {this.props.widgets.map( (w, index) => drawWidget(w, index)) }
-          </Layer>
-        </Stage>
-      </div>
+
+      <Stage width={window.innerWidth} height={window.innerHeight} >
+        <Layer>
+          {this.props.widgets.map( (w, index) => drawWidget(w, index)) }
+        </Layer>
+      </Stage>
+
       <div>
         <button onClick={() => this.startAll()}>Start</button>
         <button onClick={() => this.stopAll()}>Stop</button>
@@ -138,4 +134,4 @@ class Toybox extends Component {
 
 }
 
-export default Toybox;
+export default connect(mapStateToProps)(Toybox);
