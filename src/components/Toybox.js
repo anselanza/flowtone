@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
+import Konva from 'konva';
 import Tone from 'tone';
-import { dispatch } from '../../../../Library/Caches/typescript/3.4.3/node_modules/rxjs/internal/observable/range';
 
 const mapStateToProps = state => state;
 
@@ -26,8 +26,20 @@ class Toybox extends Component {
       key={w.id}
       position= {widgetPosition(w, index)}
       draggable
+      onDragStart={(event => {
+        event.target.setAttrs({
+          scaleX: 1.1,
+          scaleY: 1.1
+        });
+      })}
       onDragEnd={(event) => {
-        console.log(event);
+        // console.log(event);
+        event.target.to({
+          duration: 0.5,
+          easing: Konva.Easings.ElasticEaseOut,
+          scaleX: 1,
+          scaleY: 1,
+        });
         const { x, y } = event.currentTarget.attrs;
         this.props.dispatch({ 
           type: 'WIDGET_MOVE', 
