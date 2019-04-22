@@ -33,6 +33,6 @@ const rootReducer = (state = DummyData, action) => ({
 // console.log('init store with:', rootReducer());
 const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-store.subscribe(() => console.log(store.getState()));
+// store.subscribe(() => console.log(store.getState()));
 
 export default store;

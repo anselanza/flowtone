@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 
 import store from './redux/store'
 import './App.css';
-import Toybox from './components/Toybox';
+import Board from './components/Toybox';
 
 
 class App extends Component {
@@ -12,7 +12,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div className="App">
-          <Toybox />
+          <Board />
         </div>
       </Provider>
     );

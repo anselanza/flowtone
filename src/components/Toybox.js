@@ -19,7 +19,7 @@ const widgetPosition = (widget, index) =>
     : ( {x: size/2 + index * size*1.5, y: size/2 } )
 
 
-class Toybox extends Component {
+class Board extends Component {
 
   drawWidget = (w, index) =>
     <Group 
@@ -157,4 +157,4 @@ class Toybox extends Component {
 
 }
 
-export default connect(mapStateToProps)(Toybox);
+export default connect(mapStateToProps)(Board);
