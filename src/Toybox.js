@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Stage, Layer, Rect } from 'react-konva';
 import Tone from 'tone';
 
 let nodes = [];
@@ -86,6 +87,17 @@ class Toybox extends Component {
   }
 
   render() {
+
+    const size = 64;
+    
+    const widgetBoxes = this.props.widgets.map((w, index) =>
+      <Rect 
+        width={size} height={size} 
+        fill={"red"} 
+        position={ {x: size/2 + index * size*1.5, y: size/2 }}
+      />
+    )
+
     return (
       <div className="Toybox">
         <h2>Toybox</h2>
@@ -96,6 +108,13 @@ class Toybox extends Component {
           <div>
             <code>connections: {JSON.stringify(this.props.connections)}</code>
           </div>
+        </div>
+        <div>
+          <Stage width="640" height="480">
+            <Layer>
+              {widgetBoxes}
+            </Layer>
+          </Stage>
         </div>
         <div>
           <button onClick={() => this.startAll()}>Start</button>
