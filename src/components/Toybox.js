@@ -122,7 +122,7 @@ class Toybox extends Component {
 
       <Stage width={window.innerWidth} height={window.innerHeight} >
         <Layer>
-          {this.props.widgets.map( (w, index) => drawWidget(w, index)) }
+          {this.props.widgets && this.props.widgets.map( (w, index) => drawWidget(w, index)) }
         </Layer>
       </Stage>
 
