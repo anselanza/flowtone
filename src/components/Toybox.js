@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 import Tone from 'tone';
+import { dispatch } from '../../../../Library/Caches/typescript/3.4.3/node_modules/rxjs/internal/observable/range';
 
 const mapStateToProps = state => state;
 
@@ -11,34 +12,44 @@ let nodes = [];
 
 const isMaster = widget => widget.type === 'Tone.Master';
 
+
 const widgetPosition = (widget, index) =>
   widget.position !== undefined
     ? widget.position
     : ( {x: size/2 + index * size*1.5, y: size/2 } )
 
-const drawWidget = (w, index) =>
-  <Group 
-    key={w.id}
-    position= {widgetPosition(w, index)}
-    draggable
-    >
-    <Rect 
-      width={size} height={size} 
-      fill={"red"} 
-    />
-    <Text
-      text={w.name}
-      align="center"
-      verticalAlign="middle"
-      height={size}
-      width={size}
-    />
-    
-  </Group>
 
 class Toybox extends Component {
 
-  componentDidMount() {
+  drawWidget = (w, index) =>
+    <Group 
+      key={w.id}
+      position= {widgetPosition(w, index)}
+      draggable
+      onDragEnd={(event) => {
+        console.log(event);
+        const { x, y } = event.currentTarget.attrs;
+        this.props.dispatch({ 
+          type: 'WIDGET_MOVE', 
+          id: w.id, 
+          position: { x, y } 
+        });
+      }}
+      >
+      <Rect 
+        width={size} height={size} 
+        fill={"red"} 
+      />
+      <Text
+        text={w.name}
+        align="center"
+        verticalAlign="middle"
+        height={size}
+        width={size}
+      />
+    </Group>
+
+  componentDidMount= () => {
     this.props.widgets.forEach(widget => {
 
       let node;
@@ -122,7 +133,7 @@ class Toybox extends Component {
 
       <Stage width={window.innerWidth} height={window.innerHeight} >
         <Layer>
-          {this.props.widgets && this.props.widgets.map( (w, index) => drawWidget(w, index)) }
+          {this.props.widgets && this.props.widgets.map( (w, index) => this.drawWidget(w, index)) }
         </Layer>
       </Stage>
 
