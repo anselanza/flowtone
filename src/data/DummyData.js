@@ -3,7 +3,11 @@ export default {
       {
           id: 0,
           name: 'Master',
-          type: 'Tone.Master'
+          type: 'Tone.Master',
+          position: {
+            x: 400,
+            y: 400
+          }
       },
       {
           id: 1,

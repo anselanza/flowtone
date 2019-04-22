@@ -2,9 +2,35 @@ import React, { Component } from 'react';
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 import Tone from 'tone';
 
+const size = 100;
+
 let nodes = [];
 
 const isMaster = widget => widget.type === 'Tone.Master';
+
+const widgetPosition = (widget, index) =>
+  widget.position !== undefined
+    ? widget.position
+    : ( {x: size/2 + index * size*1.5, y: size/2 } )
+
+const drawWidget = (w, index) =>
+  <Group 
+    position= {widgetPosition(w, index)}
+    draggable
+    >
+    <Rect 
+      width={size} height={size} 
+      fill={"red"} 
+    />
+    <Text
+      text={w.name}
+      align="center"
+      verticalAlign="middle"
+      height={size}
+      width={size}
+    />
+    
+  </Group>
 
 class Toybox extends Component {
 
@@ -86,55 +112,30 @@ class Toybox extends Component {
 
   }
 
-  render() {
-
-    const size = 100;
-    
-    const widgetBoxes = this.props.widgets.map((w, index) =>
-      <Group 
-        position={ {x: size/2 + index * size*1.5, y: size/2 }} 
-        draggable
-       >
-        <Rect 
-          width={size} height={size} 
-          fill={"red"} 
-        />
-        <Text
-          text={w.name}
-          align="center"
-          verticalAlign="middle"
-          height={size}
-          width={size}
-        />
-       
-      </Group>
-    )
-
-    return (
-      <div className="Toybox">
-        <h2>Toybox</h2>
+  render = () => 
+    <div className="Toybox">
+      <h2>Toybox</h2>
+      <div>
         <div>
-          <div>
-            <code>widgets: {JSON.stringify(this.props.widgets)}</code>
-          </div>
-          <div>
-            <code>connections: {JSON.stringify(this.props.connections)}</code>
-          </div>
+          <code>widgets: {JSON.stringify(this.props.widgets)}</code>
         </div>
         <div>
-          <Stage width={window.innerWidth} height={window.innerHeight} >
-            <Layer>
-              {widgetBoxes}
-            </Layer>
-          </Stage>
-        </div>
-        <div>
-          <button onClick={() => this.startAll()}>Start</button>
-          <button onClick={() => this.stopAll()}>Stop</button>
+          <code>connections: {JSON.stringify(this.props.connections)}</code>
         </div>
       </div>
-    );
-  }
+      <div>
+        <Stage width={window.innerWidth} height={window.innerHeight} >
+          <Layer>
+            {this.props.widgets.map( (w, index) => drawWidget(w, index)) }
+          </Layer>
+        </Stage>
+      </div>
+      <div>
+        <button onClick={() => this.startAll()}>Start</button>
+        <button onClick={() => this.stopAll()}>Stop</button>
+      </div>
+    </div>
+
 }
 
 export default Toybox;
