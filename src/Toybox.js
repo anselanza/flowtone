@@ -91,7 +91,10 @@ class Toybox extends Component {
     const size = 100;
     
     const widgetBoxes = this.props.widgets.map((w, index) =>
-      <Group position={ {x: size/2 + index * size*1.5, y: size/2 }}  >
+      <Group 
+        position={ {x: size/2 + index * size*1.5, y: size/2 }} 
+        draggable
+       >
         <Rect 
           width={size} height={size} 
           fill={"red"} 
@@ -119,7 +122,7 @@ class Toybox extends Component {
           </div>
         </div>
         <div>
-          <Stage width="640" height="480">
+          <Stage width={window.innerWidth} height={window.innerHeight} >
             <Layer>
               {widgetBoxes}
             </Layer>
