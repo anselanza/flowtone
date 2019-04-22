@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Stage, Layer, Rect } from 'react-konva';
+import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 import Tone from 'tone';
 
 let nodes = [];
@@ -88,14 +88,23 @@ class Toybox extends Component {
 
   render() {
 
-    const size = 64;
+    const size = 100;
     
     const widgetBoxes = this.props.widgets.map((w, index) =>
-      <Rect 
-        width={size} height={size} 
-        fill={"red"} 
-        position={ {x: size/2 + index * size*1.5, y: size/2 }}
-      />
+      <Group position={ {x: size/2 + index * size*1.5, y: size/2 }}  >
+        <Rect 
+          width={size} height={size} 
+          fill={"red"} 
+        />
+        <Text
+          text={w.name}
+          align="center"
+          verticalAlign="middle"
+          height={size}
+          width={size}
+        />
+       
+      </Group>
     )
 
     return (
