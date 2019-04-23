@@ -11,7 +11,7 @@ export default {
         values: [
           {
             id: 'volume',
-            value: -12
+            value: -10
           }
         ]
       },

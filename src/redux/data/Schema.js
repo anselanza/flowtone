@@ -11,7 +11,8 @@ export default {
           {
             id: "volume",
             name: "Master Volume",
-            type: "Decibels"
+            type: "Decibels",
+            default: 0
           }
       ]
     }

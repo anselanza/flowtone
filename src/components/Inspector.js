@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
 
+const loadOrUseDefaultValues = (input, widgetValues) => {
+  let alreadySet = widgetValues.find(v => v.id === input.id);
+  if (alreadySet !== undefined) {
+    return alreadySet.value;
+  } else {
+    return input.default;
+  }
+}
+
 class Inspector extends Component {
 
   render = () =>
@@ -10,8 +19,8 @@ class Inspector extends Component {
               <input 
                 key={input.id}
                 type="number" name={input.name} 
+                value={loadOrUseDefaultValues(input, this.props.widget.values)}
                 onChange={(e) => { 
-                  // console.log('onChange:', e.target.value);
                   this.props.updateValue(this.props.widget.id, input, e.target.value) 
                 }}
               />
