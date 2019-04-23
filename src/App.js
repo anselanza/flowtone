@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 
 import store from './redux/store'
 import './App.css';
-import Board from './components/Toybox';
+import Board from './components/Board';
 
 
 class App extends Component {
