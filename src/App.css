@@ -1,26 +1,33 @@
-.App {
-  text-align: center;
+.board {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.side-panel {
+  position: absolute;
+  width: 128px;
+  height: 80vh;
+  top: 0;
+  right: 0;
+  padding: 16px;
+  background-color: #ddd;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.inspector {
+  position: absolute;
+  top: 0;
 }
 
-.App-link {
-  color: #61dafb;
+.controls {
+  position: absolute;
+  bottom: 0
+}
+
+.board-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 @keyframes App-logo-spin {

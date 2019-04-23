@@ -4,6 +4,8 @@ import { Stage, Layer, Group, Rect, Text, Line } from 'react-konva';
 import Konva from 'konva';
 import Tone from 'tone';
 
+import Inspector from './Inspector';
+
 const mapStateToProps = state => state;
 
 const size = 100;
@@ -23,7 +25,8 @@ const widgetPosition = (widget, index) =>
 class Board extends Component {
 
   state = {
-    dragging: false
+    dragging: false,
+    selectedWidgetId: null
   }
 
   drawWidget = (w, index) =>
@@ -31,22 +34,25 @@ class Board extends Component {
       key={w.id}
       position= {widgetPosition(w, index)}
       draggable
-      onDragStart={(event => {
+      onMouseDown={ e => {
+        this.setState({ selectedWidgetId: w.id });
+      }}
+      onDragStart={(e) => {
         this.setState({ dragging: true });
-        event.target.setAttrs({
+        e.target.setAttrs({
           scaleX: 1.1,
           scaleY: 1.1
         });
-      })}
-      onDragEnd={(event) => {
+      }}
+      onDragEnd={(e) => {
         this.setState({ dragging: false });
-        event.target.to({
+        e.target.to({
           duration: 0.5,
           easing: Konva.Easings.ElasticEaseOut,
           scaleX: 1,
           scaleY: 1,
         });
-        const { x, y } = event.currentTarget.attrs;
+        const { x, y } = e.currentTarget.attrs;
         this.props.dispatch({ 
           type: 'WIDGET_MOVE', 
           id: w.id, 
@@ -161,20 +167,28 @@ class Board extends Component {
     <div className="board">
       <h2>Board</h2>
 
-      <Stage width={window.innerWidth} height={window.innerHeight} >
-        <Layer>
-        {this.props.cables && this.props.cables.map( c => this.drawCable(
-            getWidget(this.props.widgets, c.from.id),
-            getWidget(this.props.widgets, c.to.id)
-          ))}
-          {this.props.widgets && this.props.widgets.map( (w, index) => this.drawWidget(w, index)) }
-        </Layer>
-      </Stage>
-
-      <div>
-        <button onClick={() => this.startAll()}>Start</button>
-        <button onClick={() => this.stopAll()}>Stop</button>
+      <div className="board-stage">
+        <Stage width={window.innerWidth} height={window.innerHeight} >
+          <Layer>
+          {this.props.cables && this.props.cables.map( c => this.drawCable(
+              getWidget(this.props.widgets, c.from.id),
+              getWidget(this.props.widgets, c.to.id)
+            ))}
+            {this.props.widgets && this.props.widgets.map( (w, index) => this.drawWidget(w, index)) }
+          </Layer>
+        </Stage>
       </div>
+
+      <div className="side-panel">
+        {this.state.selectedWidgetId !== null &&
+          <Inspector widget={getWidget(this.props.widgets, this.state.selectedWidgetId)} />
+        }
+        <div className="controls">
+          <button onClick={() => this.startAll()}>Start</button>
+          <button onClick={() => this.stopAll()}>Stop</button>
+        </div>
+      </div>
+
     </div>
 
 }
