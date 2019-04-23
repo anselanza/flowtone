@@ -19,6 +19,8 @@ class Inspector extends Component {
         <h3>#{this.props.widget.id}: {this.props.widget.name}</h3>
         <form>
           {this.props.schema && this.props.schema.inputs.map(input => 
+            <div>
+              {input.name}: 
               <input 
                 key={input.id}
                 type="number" name={input.name} 
@@ -27,6 +29,8 @@ class Inspector extends Component {
                   this.props.updateValue(this.props.widget.id, input, e.target.value) 
                 }}
               />
+              {this.props.types.find(t => t.id === input.type).postfix}
+            </div>
           )}
         </form>
     </div>

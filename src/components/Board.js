@@ -225,6 +225,7 @@ class Board extends Component {
           <Inspector 
             widget={getWidget(this.props.widgets, this.state.selectedWidgetId)} 
             schema={getSchema(getWidget(this.props.widgets, this.state.selectedWidgetId))}
+            types={Schema.types}
             updateValue={this.props.changeValue}
           />
         }
