@@ -1,17 +1,19 @@
 export default {
 
     nodes: [
-        {
-            name: "Master",
-            type: "Tone.Master",
-            inputs: [
-                {
-                    name: "volume",
-                    type: "value",
-                    units: "decibels"
-                }
-            ]
-        }
-    ]
+      {
+        id: "master",
+        name: "Master Output",
+        type: "Tone.Master",
+        inputs: [
+          {
+            id: "volume",
+            name: "Master Volume",
+            type: "value",
+            units: "decibels"
+          }
+      ]
+    }
+  ]
 
 }

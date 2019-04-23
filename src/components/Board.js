@@ -15,8 +15,16 @@ const moveWidget = (id, position) => ({
   position
 });
 
+const changeValue = (widgetId, valueId, value) => ({
+  type: 'WIDGET_SET_VALUE',
+  widgetId,
+  valueId,
+  value
+});
+
 const actionCreators = {
-  moveWidget
+  moveWidget,
+  changeValue
 };
 
 const size = 100;
@@ -193,6 +201,7 @@ class Board extends Component {
           <Inspector 
             widget={getWidget(this.props.widgets, this.state.selectedWidgetId)} 
             schema={getSchema(getWidget(this.props.widgets, this.state.selectedWidgetId))}
+            updateValue={this.props.changeValue}
           />
         }
         <div className="controls">
