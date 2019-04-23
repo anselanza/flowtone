@@ -22,19 +22,24 @@ const widgetPosition = (widget, index) =>
 
 class Board extends Component {
 
+  state = {
+    dragging: false
+  }
+
   drawWidget = (w, index) =>
     <Group 
       key={w.id}
       position= {widgetPosition(w, index)}
       draggable
       onDragStart={(event => {
+        this.setState({ dragging: true });
         event.target.setAttrs({
           scaleX: 1.1,
           scaleY: 1.1
         });
       })}
       onDragEnd={(event) => {
-        // console.log(event);
+        this.setState({ dragging: false });
         event.target.to({
           duration: 0.5,
           easing: Konva.Easings.ElasticEaseOut,
@@ -70,8 +75,8 @@ class Board extends Component {
       <Line
         key={`cable-${fromWidget.id}-${toWidget.id}`}
         points={[fromWidget.position.x, fromWidget.position.y, toWidget.position.x, toWidget.position.y]}
-        stroke={"red"}
-        opacity={0.5}
+        stroke={"grey"}
+        opacity={this.state.dragging ? 0.05 : 1}
       />
 
   componentDidMount= () => {
