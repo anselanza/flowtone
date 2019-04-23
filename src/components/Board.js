@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { Stage, Layer, Group, Rect, Text } from 'react-konva';
+import { Stage, Layer, Group, Rect, Text, Line } from 'react-konva';
 import Konva from 'konva';
 import Tone from 'tone';
 
@@ -12,6 +12,7 @@ let nodes = [];
 
 const isMaster = widget => widget.type === 'Tone.Master';
 
+const getWidget = (widgets, id) => widgets.find(w => w.id === id);
 
 const widgetPosition = (widget, index) =>
   widget.position !== undefined
@@ -62,6 +63,12 @@ class Board extends Component {
         width={size}
       />
     </Group>
+
+  drawCable = (fromWidget, toWidget) => 
+      <Line
+        points={[fromWidget.position.x, fromWidget.position.y, toWidget.position.x, toWidget.position.y]}
+        stroke={"red"}
+      />
 
   componentDidMount= () => {
     this.props.widgets.forEach(widget => {
@@ -148,6 +155,10 @@ class Board extends Component {
       <Stage width={window.innerWidth} height={window.innerHeight} >
         <Layer>
           {this.props.widgets && this.props.widgets.map( (w, index) => this.drawWidget(w, index)) }
+          {this.props.cables && this.props.cables.map( c => this.drawCable(
+            getWidget(this.props.widgets, c.from.id),
+            getWidget(this.props.widgets, c.to.id)
+          ))}
         </Layer>
       </Stage>
 

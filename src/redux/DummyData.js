@@ -1,28 +1,40 @@
 export default {
     widgets: [
       {
-          id: 0,
-          name: 'Master',
-          type: 'Tone.Master',
-          position: {
-            x: 400,
-            y: 400
-          }
+        id: 0,
+        name: 'Master',
+        type: 'Tone.Master',
+        position: {
+          x: 600,
+          y: 200
+        }
       },
       {
-          id: 1,
-          name: 'Oscillator',
-          type: 'Tone.Oscillator'
+        id: 1,
+        name: 'Oscillator',
+        type: 'Tone.Oscillator',
+        position: {
+          x: 100,
+          y: 100
+        }
       },
       {
         id: 2,
         name: 'Noise',
-        type: 'Tone.Noise'
+        type: 'Tone.Noise',
+        position: {
+          x: 100,
+          y: 400
+        }
       },
       {
         id: 3,
         name: 'LowPassFilter',
-        type: 'Tone.Filter'
+        type: 'Tone.Filter',
+        position: {
+          x: 300,
+          y: 300
+        }
       }
     ],
   
