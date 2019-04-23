@@ -46,6 +46,7 @@ export default {
   
     cables: [
       {
+        id: 'cable0',
         from: {
           id: 1
         },
@@ -54,6 +55,7 @@ export default {
         }
       },
       {
+        id: 'cable1',
         from: {
           id: 2
         },
@@ -62,6 +64,7 @@ export default {
         }
       },
       {
+        id: 'cable2',
         from: {
           id: 3
         },

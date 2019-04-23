@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { Stage, Layer, Group, Rect, Text, Line } from 'react-konva';
+import { Stage, Layer, Group, Rect, Text, Arrow } from 'react-konva';
 import Konva from 'konva';
 import Tone from 'tone';
 
@@ -63,6 +63,42 @@ const widgetPosition = (widget, index) =>
     ? widget.position
     : ( {x: size/2 + index * size*1.5, y: size/2 } )
 
+const getWidgetCables = (widget, cables) => ({
+  in: cables.filter(c => c.to.id === widget.id),
+  out: cables.filter(c => c.from.id === widget.id)
+});
+
+const indexOfCable = (cable, cables) => {
+  let found = null;
+  cables.forEach( (c, index) => {
+    if (c.id === cable.id) {
+      found = index;
+    }
+  })
+  return found;
+}
+// cables.reduce( (result, c, index) =>
+//   c.id === cable.id ? index : result,
+// undefined);
+
+
+const calculateLinePoints = (cable, widgets, cables) => {
+  let fromWidget = widgets.find(w => w.id === cable.from.id);
+  let toWidget = widgets.find(w => w.id === cable.to.id);
+  const cablesIn = getWidgetCables(toWidget, cables).in;
+  const cablePosition = indexOfCable(cable,cablesIn);
+  console.log(cable, 'in cablesIn', cablesIn, 'posiion:', cablePosition);
+  let endPoint = {
+    x: toWidget.position.x - size/2,
+    y: toWidget.position.y + size/cablesIn.length/2 * cablePosition 
+  }
+
+  return [
+    fromWidget.position.x, fromWidget.position.y, 
+    endPoint.x, endPoint.y
+  ];
+}
+
 
 class Board extends Component {
 
@@ -115,15 +151,17 @@ class Board extends Component {
       />
     </Group>
 
-  drawCable = (fromWidget, toWidget) => 
-      <Line
-        key={`cable-${fromWidget.id}-${toWidget.id}`}
-        points={[fromWidget.position.x, fromWidget.position.y, toWidget.position.x, toWidget.position.y]}
+ 
+  drawCable = (cable) => 
+      <Arrow
+        key={`cable-${cable.from.id}-${cable.to.id}`}
+        points={calculateLinePoints(cable, this.props.widgets, this.props.cables)}
+        tension={1}
         stroke={"grey"}
         opacity={this.state.dragging ? 0.05 : 1}
       />
 
-  componentDidMount= () => {
+  componentDidMount = () => {
     this.props.widgets.forEach(widget => {
 
       let node;
@@ -211,10 +249,7 @@ class Board extends Component {
       <div className="board-stage">
         <Stage width={window.innerWidth} height={window.innerHeight} >
           <Layer>
-          {this.props.cables && this.props.cables.map( c => this.drawCable(
-              getWidget(this.props.widgets, c.from.id),
-              getWidget(this.props.widgets, c.to.id)
-            ))}
+            {this.props.cables && this.props.cables.map( c => this.drawCable(c) )}      
             {this.props.widgets && this.props.widgets.map( (w, index) => this.drawWidget(w, index)) }
           </Layer>
         </Stage>

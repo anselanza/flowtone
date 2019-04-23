@@ -19,10 +19,9 @@ class Inspector extends Component {
         <h3>#{this.props.widget.id}: {this.props.widget.name}</h3>
         <form>
           {this.props.schema && this.props.schema.inputs.map(input => 
-            <div>
+            <div key={input.id}>
               {input.name}: 
               <input 
-                key={input.id}
                 type="number" name={input.name} 
                 value={loadOrUseDefaultValues(input, this.props.widget.values)}
                 onChange={(e) => { 
