@@ -68,19 +68,10 @@ const getWidgetCables = (widget, cables) => ({
   out: cables.filter(c => c.from.id === widget.id)
 });
 
-const indexOfCable = (cable, cables) => {
-  let found = null;
-  cables.forEach( (c, index) => {
-    if (c.id === cable.id) {
-      found = index;
-    }
-  })
-  return found;
-}
-// cables.reduce( (result, c, index) =>
-//   c.id === cable.id ? index : result,
-// undefined);
-
+const indexOfCable = (cable, cables) => 
+  cables.reduce( (result, c, index) =>
+  c.id === cable.id ? index : result,
+undefined)
 
 const calculateLinePoints = (cable, widgets, cables) => {
   let fromWidget = widgets.find(w => w.id === cable.from.id);
