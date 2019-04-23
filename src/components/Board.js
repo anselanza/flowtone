@@ -4,9 +4,20 @@ import { Stage, Layer, Group, Rect, Text, Line } from 'react-konva';
 import Konva from 'konva';
 import Tone from 'tone';
 
+import Schema from '../redux/data/Schema';
 import Inspector from './Inspector';
 
 const mapStateToProps = state => state;
+
+const moveWidget = (id, position) => ({ 
+  type: 'WIDGET_MOVE', 
+  id,
+  position
+});
+
+const actionCreators = {
+  moveWidget
+};
 
 const size = 100;
 
@@ -15,6 +26,8 @@ let nodes = [];
 const isMaster = widget => widget.type === 'Tone.Master';
 
 const getWidget = (widgets, id) => widgets.find(w => w.id === id);
+
+const getSchema = (widget) => Schema.nodes.find(node => node.type === widget.type);
 
 const widgetPosition = (widget, index) =>
   widget.position !== undefined
@@ -53,11 +66,7 @@ class Board extends Component {
           scaleY: 1,
         });
         const { x, y } = e.currentTarget.attrs;
-        this.props.dispatch({ 
-          type: 'WIDGET_MOVE', 
-          id: w.id, 
-          position: { x, y } 
-        });
+        this.props.moveWidget(w.id, { x, y });
       }}
       >
       <Rect 
@@ -181,7 +190,10 @@ class Board extends Component {
 
       <div className="side-panel">
         {this.state.selectedWidgetId !== null &&
-          <Inspector widget={getWidget(this.props.widgets, this.state.selectedWidgetId)} />
+          <Inspector 
+            widget={getWidget(this.props.widgets, this.state.selectedWidgetId)} 
+            schema={getSchema(getWidget(this.props.widgets, this.state.selectedWidgetId))}
+          />
         }
         <div className="controls">
           <button onClick={() => this.startAll()}>Start</button>
@@ -193,4 +205,4 @@ class Board extends Component {
 
 }
 
-export default connect(mapStateToProps)(Board);
+export default connect(mapStateToProps, actionCreators)(Board);
