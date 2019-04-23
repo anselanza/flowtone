@@ -11,7 +11,7 @@ class Inspector extends Component {
                 type="number" name={input.name} 
                 onChange={(e) => { 
                   // console.log('onChange:', e.target.value);
-                  this.props.updateValue(this.props.widget.id, input.id, e.target.value) 
+                  this.props.updateValue(this.props.widget.id, input, e.target.value) 
                 }}
               />
           )}

@@ -8,7 +8,7 @@ const moveWidget = (widget, position) => ({
 });
 
 const createOrUpdateValue = (values, newValue) => {
-  if (values === undefined || values.length == 0) {
+  if (values === undefined || values.length === 0) {
     return [ newValue ];
   } else {
     return values.map(currentValue => 

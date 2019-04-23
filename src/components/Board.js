@@ -7,6 +7,8 @@ import Tone from 'tone';
 import Schema from '../redux/data/Schema';
 import Inspector from './Inspector';
 
+let nodes = [];
+
 const mapStateToProps = state => state;
 
 const moveWidget = (id, position) => ({ 
@@ -15,14 +17,29 @@ const moveWidget = (id, position) => ({
   position
 });
 
-const changeValue = (widgetId, valueId, value) => ({
-  type: 'WIDGET_SET_VALUE',
-  id: widgetId,
-  value: {
-    id: valueId,
-    value
+const changeValue = (widgetId, input, value) => {
+  // Side effect...
+  let node = nodes.find(n => n.id === widgetId);
+  console.log('side effect on:', node);
+  if (node !== undefined) {
+    if (input.type === 'value') {
+      console.log('update value for', input.id, 'on node', node.id);
+      node.toneRef[input.id].value = value;
+    }
+  } else {
+    console.error('changeValue requested, but no matching ToneJS Node found in', nodes);
   }
-});
+
+  // State update...
+  return {
+    type: 'WIDGET_SET_VALUE',
+    id: widgetId,
+    value: {
+      id: input.id,
+      value
+    }
+  };
+};
 
 const actionCreators = {
   moveWidget,
@@ -31,7 +48,7 @@ const actionCreators = {
 
 const size = 100;
 
-let nodes = [];
+
 
 const isMaster = widget => widget.type === 'Tone.Master';
 
@@ -111,8 +128,8 @@ class Board extends Component {
 
       switch (widget.type) {
         case 'Tone.Master':
-        // created on initialisation by ToneJS
-        console.log('master; ignore');
+        node = Tone.Master;
+        console.log('master; reference but do not instantiate');
       break;
 
       case 'Tone.Oscillator':
