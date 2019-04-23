@@ -17,9 +17,11 @@ const moveWidget = (id, position) => ({
 
 const changeValue = (widgetId, valueId, value) => ({
   type: 'WIDGET_SET_VALUE',
-  widgetId,
-  valueId,
-  value
+  id: widgetId,
+  value: {
+    id: valueId,
+    value
+  }
 });
 
 const actionCreators = {

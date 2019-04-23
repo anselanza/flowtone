@@ -7,6 +7,23 @@ const moveWidget = (widget, position) => ({
   position: position
 });
 
+const createOrUpdateValue = (values, newValue) => {
+  if (values === undefined || values.length == 0) {
+    return [ newValue ];
+  } else {
+    return values.map(currentValue => 
+      currentValue.id === newValue.id
+      ? newValue // update
+      : currentValue // leave as is
+    );
+  }
+}
+
+const updateValue = (widget, newValue) => ({
+  ...widget,
+  values: createOrUpdateValue(widget.values, newValue)
+});
+
 const widgets = (widgets = [], action) => {
   switch (action.type) {
     case 'WIDGET_MOVE': 
@@ -15,6 +32,13 @@ const widgets = (widgets = [], action) => {
           ? moveWidget(w, action.position)
           : w
       );
+
+     case 'WIDGET_SET_VALUE':
+        return widgets.map(w =>
+          w.id === action.id
+            ? updateValue(w, action.value)
+            : w
+        );
 
     default:
       return widgets;
