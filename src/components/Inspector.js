@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
 const loadOrUseDefaultValues = (input, widgetValues) => {
+  if (widgetValues === undefined || widgetValues.length === 0) {
+    return input.default;
+  }
   let alreadySet = widgetValues.find(v => v.id === input.id);
   if (alreadySet !== undefined) {
     return alreadySet.value;
