@@ -1,3 +1,5 @@
+// ToneJS Types at https://tonejs.github.io/docs/r13/Type
+
 export default {
 
     nodes: [
@@ -9,8 +11,7 @@ export default {
           {
             id: "volume",
             name: "Master Volume",
-            type: "value",
-            units: "decibels"
+            type: "Decibels"
           }
       ]
     }
