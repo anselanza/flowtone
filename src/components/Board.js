@@ -51,6 +51,7 @@ class Board extends Component {
       >
       <Rect 
         width={size} height={size} 
+        position={ { x: -size/2, y: -size/2 }}
         cornerRadius={10}
         fill={"#2F80ED"} 
       />
@@ -59,6 +60,7 @@ class Board extends Component {
         fill={"#ffffff"}
         align="center"
         verticalAlign="middle"
+        position={ { x: -size/2, y: -size/2 }}
         height={size}
         width={size}
       />
@@ -68,6 +70,7 @@ class Board extends Component {
       <Line
         points={[fromWidget.position.x, fromWidget.position.y, toWidget.position.x, toWidget.position.y]}
         stroke={"red"}
+        opacity={0.5}
       />
 
   componentDidMount= () => {
