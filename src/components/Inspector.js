@@ -8,6 +8,7 @@ class Inspector extends Component {
         <form>
           {this.props.schema && this.props.schema.inputs.map(input => 
               <input 
+                key={input.id}
                 type="number" name={input.name} 
                 onChange={(e) => { 
                   // console.log('onChange:', e.target.value);

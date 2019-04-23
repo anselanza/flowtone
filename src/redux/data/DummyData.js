@@ -7,7 +7,13 @@ export default {
         position: {
           x: 600,
           y: 200
-        }
+        },
+        values: [
+          {
+            id: 'volume',
+            value: -12
+          }
+        ]
       },
       {
         id: 1,

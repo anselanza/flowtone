@@ -17,18 +17,20 @@ const moveWidget = (id, position) => ({
   position
 });
 
-const changeValue = (widgetId, input, value) => {
-  // Side effect...
-  let node = nodes.find(n => n.id === widgetId);
-  console.log('side effect on:', node);
+const changeNodeValue = (node, inputId, value) => {
   if (node !== undefined) {
-    if (input.type === 'value') {
-      console.log('update value for', input.id, 'on node', node.id);
-      node.toneRef[input.id].value = value;
-    }
+    console.log('update value for', inputId, 'on node', node);
+    node[inputId].value = value;
   } else {
     console.error('changeValue requested, but no matching ToneJS Node found in', nodes);
   }
+}
+
+
+const changeValue = (widgetId, input, value) => {
+  // Side effect...
+  let node = nodes.find(n => n.id === widgetId);
+  changeNodeValue(node.toneRef, input.id, value);
 
   // State update...
   return {
@@ -148,11 +150,14 @@ class Board extends Component {
       break;
 
       default:
-          console.error('unknown widget.type for:', widget);
-        }
+        console.error('unknown widget.type for:', widget);
+      }
 
       if (node !== undefined) {
         console.log('adding node', node);
+        if (widget.values && widget.values.length > 0) {
+          widget.values.forEach(v => changeNodeValue(node, v.id, v.value));
+        }
         nodes.push({ id: widget.id, toneRef: node });
       }
       
