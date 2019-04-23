@@ -140,8 +140,8 @@ class Board extends Component {
   }
 
   render = () => 
-    <div className="Toybox">
-      <h2>Toybox</h2>
+    <div className="board">
+      <h2>Board</h2>
 
       <Stage width={window.innerWidth} height={window.innerHeight} >
         <Layer>
