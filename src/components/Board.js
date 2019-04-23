@@ -50,10 +50,12 @@ class Board extends Component {
       >
       <Rect 
         width={size} height={size} 
-        fill={"red"} 
+        cornerRadius={10}
+        fill={"#2F80ED"} 
       />
       <Text
         text={w.name}
+        fill={"#ffffff"}
         align="center"
         verticalAlign="middle"
         height={size}
@@ -100,21 +102,21 @@ class Board extends Component {
 
     console.log('nodes list:', nodes);
 
-    this.props.connections.forEach(connection => {
+    this.props.cables.forEach(cable => {
       const source = { 
-        widget: this.props.widgets.find(w => w.id === connection.from.id),
-        node: nodes.find(n => n.id === connection.from.id)
+        widget: this.props.widgets.find(w => w.id === cable.from.id),
+        node: nodes.find(n => n.id === cable.from.id)
       }
       const destination = {
-        widget: this.props.widgets.find(w => w.id === connection.to.id),
-        node: nodes.find(n => n.id === connection.to.id)
+        widget: this.props.widgets.find(w => w.id === cable.to.id),
+        node: nodes.find(n => n.id === cable.to.id)
       }
 
       if (isMaster(destination.widget)) {
-        console.log('destination master; connect', source.id, 'to Tone.Master');
+        console.log('destination master; connect', source.widget, 'to Tone.Master');
           source.node.toneRef.connect(Tone.Master);
       } else {
-        console.log('connect', source.widget, 'to', destination.widget);
+        console.log('destination node; connect', source.widget, 'to', destination.widget);
         source.node.toneRef.connect(destination.node.toneRef);
       }
 

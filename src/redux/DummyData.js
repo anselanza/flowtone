@@ -26,7 +26,7 @@ export default {
       }
     ],
   
-    connections: [
+    cables: [
       {
         from: {
           id: 1

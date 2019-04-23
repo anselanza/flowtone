@@ -21,13 +21,13 @@ const widgets = (widgets = [], action) => {
   }
 };
 
-const connections = (state = [], action) => {
+const cables = (state = [], action) => {
   return state;
 };
 
 const rootReducer = (state = DummyData, action) => ({
     widgets: widgets(state.widgets, action),
-    connections: connections(state.connections, action)
+    cables: cables(state.cables, action)
 });
 
 // console.log('init store with:', rootReducer());
