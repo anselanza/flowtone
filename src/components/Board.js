@@ -68,6 +68,7 @@ class Board extends Component {
 
   drawCable = (fromWidget, toWidget) => 
       <Line
+        key={`cable-${fromWidget.id}-${toWidget.id}`}
         points={[fromWidget.position.x, fromWidget.position.y, toWidget.position.x, toWidget.position.y]}
         stroke={"red"}
         opacity={0.5}
@@ -157,11 +158,11 @@ class Board extends Component {
 
       <Stage width={window.innerWidth} height={window.innerHeight} >
         <Layer>
-          {this.props.widgets && this.props.widgets.map( (w, index) => this.drawWidget(w, index)) }
-          {this.props.cables && this.props.cables.map( c => this.drawCable(
+        {this.props.cables && this.props.cables.map( c => this.drawCable(
             getWidget(this.props.widgets, c.from.id),
             getWidget(this.props.widgets, c.to.id)
           ))}
+          {this.props.widgets && this.props.widgets.map( (w, index) => this.drawWidget(w, index)) }
         </Layer>
       </Stage>
 
