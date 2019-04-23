@@ -14,6 +14,15 @@
   background-color: #ddd;
 }
 
+.cable-tip {
+  position: absolute;
+  width: 128px;
+  padding: 8px;
+  background-color: #ddd;
+  font-size: 10px;
+  box-shadow: 5px 5px 5px #999
+}
+
 .inspector {
   position: absolute;
   top: 0;

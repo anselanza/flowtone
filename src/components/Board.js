@@ -7,6 +7,7 @@ import Tone from 'tone';
 import Schema from '../data/Schema';
 import { WIDGETS, CABLES } from '../data/Constants';
 import Inspector from './Inspector';
+import CableTip from './CableTip';
 
 let nodes = [];
 
@@ -27,6 +28,19 @@ const changeNodeValue = (node, inputId, value) => {
   }
 }
 
+const getNode = (id) => nodes.find(n => n.id === id);
+
+const getCableInfo = (cable, widgets) => ({
+  ...cable,
+  from: {
+    ...cable.from,
+    widget: getWidget(widgets, cable.from.id)
+  },
+  to: {
+    ...cable.to,
+    widget: getWidget(widgets, cable.to.id)
+  }
+})
 
 const changeValue = (widgetId, input, value) => {
   // Side effect...
@@ -164,8 +178,21 @@ class Board extends Component {
         tension={CABLES.TENSION}
         pointerWidth={CABLES.POINTER_WIDTH}
         pointerLength={CABLES.POINTER_LENGTH}
-        stroke={"grey"}
+        stroke={CABLES.COLOR}
+        strokeWidth={CABLES.THICKNESS}
         opacity={this.state.dragging ? 0.05 : 1}
+        onMouseOver={(e) => 
+          this.setState({ 
+            hover: {
+              cable: getCableInfo(cable, this.props.widgets),
+              position: { 
+                left: `${e.evt.clientX}px`,
+                top: `${e.evt.clientY}px`
+              }
+            } 
+          })
+        }
+        onMouseLeave={() => setTimeout(() => this.setState({ hover: null }), 1000)}
       />
 
   componentDidMount = () => {
@@ -276,6 +303,16 @@ class Board extends Component {
           <button onClick={() => this.stopAll()}>Stop</button>
         </div>
       </div>
+
+      {this.state.hover &&
+          this.state.hover.cable 
+            ? <CableTip 
+              info={this.state.hover.cable} 
+              style={this.state.hover.position}
+            /> 
+            : null
+        }
+
 
     </div>
 
