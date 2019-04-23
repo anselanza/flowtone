@@ -4,7 +4,8 @@ import { Stage, Layer, Group, Rect, Text, Arrow } from 'react-konva';
 import Konva from 'konva';
 import Tone from 'tone';
 
-import Schema from '../redux/data/Schema';
+import Schema from '../data/Schema';
+import { WIDGETS, CABLES } from '../data/Constants';
 import Inspector from './Inspector';
 
 let nodes = [];
@@ -48,7 +49,7 @@ const actionCreators = {
   changeValue
 };
 
-const size = 100;
+
 
 
 
@@ -61,7 +62,7 @@ const getSchema = (widget) => Schema.nodes.find(node => node.type === widget.typ
 const widgetPosition = (widget, index) =>
   widget.position !== undefined
     ? widget.position
-    : ( {x: size/2 + index * size*1.5, y: size/2 } )
+    : ( {x: WIDGETS.SIZE/2 + index * WIDGETS.SIZE*1.5, y: WIDGETS.SIZE/2 } )
 
 const getWidgetCables = (widget, cables) => ({
   in: cables.filter(c => c.to.id === widget.id),
@@ -78,14 +79,27 @@ const calculateLinePoints = (cable, widgets, cables) => {
   let toWidget = widgets.find(w => w.id === cable.to.id);
   const cablesIn = getWidgetCables(toWidget, cables).in;
   const cablePosition = indexOfCable(cable,cablesIn);
-  console.log(cable, 'in cablesIn', cablesIn, 'posiion:', cablePosition);
-  let endPoint = {
-    x: toWidget.position.x - size/2,
-    y: toWidget.position.y + size/cablesIn.length/2 * cablePosition 
+  const outBend = {
+    x: fromWidget.position.x + WIDGETS.SIZE/2 + WIDGETS.SIZE/CABLES.BEND_FACTOR,
+    y: fromWidget.position.y
+  }
+  // const inBend = {
+  //   x: toWidget.position.x - WIDGETS.SIZE/2 - WIDGETS.SIZE/CABLES.BEND_FACTOR ,
+  //   y: toWidget.position.y
+  // }
+  const endPoint = {
+    x: toWidget.position.x - WIDGETS.SIZE/2,
+     y: toWidget.position.y + cablePosition * WIDGETS.SIZE/6
+  }
+  const inBend = {
+    x: outBend.x,
+    y: endPoint.y
   }
 
   return [
     fromWidget.position.x, fromWidget.position.y, 
+    outBend.x, outBend.y,
+    inBend.x, inBend.y,
     endPoint.x, endPoint.y
   ];
 }
@@ -126,8 +140,8 @@ class Board extends Component {
       }}
       >
       <Rect 
-        width={size} height={size} 
-        position={ { x: -size/2, y: -size/2 }}
+        width={WIDGETS.SIZE} height={WIDGETS.SIZE} 
+        position={ { x: -WIDGETS.SIZE/2, y: -WIDGETS.SIZE/2 }}
         cornerRadius={10}
         fill={"#2F80ED"} 
       />
@@ -136,9 +150,9 @@ class Board extends Component {
         fill={"#ffffff"}
         align="center"
         verticalAlign="middle"
-        position={ { x: -size/2, y: -size/2 }}
-        height={size}
-        width={size}
+        position={ { x: -WIDGETS.SIZE/2, y: -WIDGETS.SIZE/2 }}
+        height={WIDGETS.SIZE}
+        width={WIDGETS.SIZE}
       />
     </Group>
 
@@ -147,7 +161,9 @@ class Board extends Component {
       <Arrow
         key={`cable-${cable.from.id}-${cable.to.id}`}
         points={calculateLinePoints(cable, this.props.widgets, this.props.cables)}
-        tension={1}
+        tension={CABLES.TENSION}
+        pointerWidth={CABLES.POINTER_WIDTH}
+        pointerLength={CABLES.POINTER_LENGTH}
         stroke={"grey"}
         opacity={this.state.dragging ? 0.05 : 1}
       />

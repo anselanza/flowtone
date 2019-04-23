@@ -1,6 +1,6 @@
 import { createStore } from 'redux'
 
-import DummyData from './data/DummyData';
+import DummyData from '../data/DummyData';
 
 const moveWidget = (widget, position) => ({
   ...widget,
