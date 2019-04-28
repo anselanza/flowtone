@@ -161,7 +161,9 @@ class Board extends Component {
       />
       <Text
         text={w.name}
+        fontFamily="monospace"
         fill={"#ffffff"}
+        fontSize="10"
         align="center"
         verticalAlign="middle"
         position={ { x: -WIDGETS.SIZE/2, y: -WIDGETS.SIZE/2 }}
