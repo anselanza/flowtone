@@ -4,27 +4,29 @@ import Inspector from './Inspector';
 
 class SidePanel extends Component {
   render = () => (
-    <Container className="side-panel">
-      <Row>
-        <Col>
-            <Inspector 
-              widget={this.props.widget} 
-              schema={this.props.schema}
-              types={this.props.types}
-              updateValue={this.props.changeValue}
-            />
-        </Col>
-      </Row>
-    
-      <Row>
+    <div className="side-panel">
+      <Container>
+        <Row>
           <Col>
-            <div className="controls">
-              <button onClick={() => this.startAll()}>Start</button>
-              <button onClick={() => this.stopAll()}>Stop</button>
-            </div>
+              <Inspector 
+                widget={this.props.widget} 
+                schema={this.props.schema}
+                types={this.props.types}
+                updateValue={this.props.changeValue}
+              />
           </Col>
-      </Row>
-  </Container>
+        </Row>
+      
+        <Row>
+            <Col>
+              <div className="controls">
+                <button onClick={() => this.startAll()}>Start</button>
+                <button onClick={() => this.stopAll()}>Stop</button>
+              </div>
+            </Col>
+        </Row>
+      </Container>
+  </div>
   )
 }
 

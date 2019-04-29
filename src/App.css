@@ -9,4 +9,5 @@
 .side-panel {
   position: absolute;
   right: 0;
+  max-width: 20vw;
 }
