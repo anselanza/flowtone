@@ -280,9 +280,8 @@ class Board extends Component {
 
   render = () => 
     <div className="board">
-      <h2>Board</h2>
 
-      <div className="board-stage">
+    <div className="board-stage">
         <Stage width={window.innerWidth} height={window.innerHeight} >
           <Layer>
             {this.props.cables && this.props.cables.map( c => this.drawCable(c) )}      

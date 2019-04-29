@@ -47,3 +47,12 @@
     transform: rotate(360deg);
   }
 }
+
+.toybox {
+  max-width: 18vw;
+  margin: 16px;
+  padding: 8px;
+  background-color: #ddd;
+  border: 1px solid #333;
+  box-shadow: 5px 5px 5px #999
+}

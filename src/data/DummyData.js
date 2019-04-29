@@ -20,7 +20,7 @@ export default {
         name: 'Oscillator',
         type: 'Tone.Oscillator',
         position: {
-          x: 100,
+          x: 300,
           y: 100
         }
       },
