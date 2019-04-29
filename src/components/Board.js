@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import { Container, Row, Col } from 'react-bootstrap';
+
 import { Stage, Layer, Group, Rect, Text, Arrow } from 'react-konva';
 import Konva from 'konva';
 import Tone from 'tone';
@@ -8,6 +10,7 @@ import Schema from '../data/Schema';
 import { WIDGETS, CABLES } from '../data/Constants';
 import Inspector from './Inspector';
 import CableTip from './CableTip';
+import SidePanel from './SidePanel';
 
 let nodes = [];
 
@@ -163,7 +166,7 @@ class Board extends Component {
         text={w.name}
         fontFamily="monospace"
         fill={"#ffffff"}
-        fontSize="10"
+        fontSize={10}
         align="center"
         verticalAlign="middle"
         position={ { x: -WIDGETS.SIZE/2, y: -WIDGETS.SIZE/2 }}
@@ -279,9 +282,9 @@ class Board extends Component {
   }
 
   render = () => 
-    <div className="board">
+    <Container className="board">
 
-    <div className="board-stage">
+      <div className="board-stage">
         <Stage width={window.innerWidth} height={window.innerHeight} >
           <Layer>
             {this.props.cables && this.props.cables.map( c => this.drawCable(c) )}      
@@ -290,32 +293,25 @@ class Board extends Component {
         </Stage>
       </div>
 
-      <div className="side-panel">
-        {this.state.selectedWidgetId !== null &&
-          <Inspector 
-            widget={getWidget(this.props.widgets, this.state.selectedWidgetId)} 
-            schema={getSchema(getWidget(this.props.widgets, this.state.selectedWidgetId))}
-            types={Schema.types}
-            updateValue={this.props.changeValue}
-          />
-        }
-        <div className="controls">
-          <button onClick={() => this.startAll()}>Start</button>
-          <button onClick={() => this.stopAll()}>Stop</button>
-        </div>
-      </div>
+      {this.state.selectedWidgetId !== null &&
+        <SidePanel 
+          widget={getWidget(this.props.widgets, this.state.selectedWidgetId)} 
+          schema={getSchema(getWidget(this.props.widgets, this.state.selectedWidgetId))}
+          types={Schema.types}
+          updateValue={this.props.changeValue}
+        />
+      }
 
       {this.state.hover &&
-          this.state.hover.cable 
-            ? <CableTip 
-              info={this.state.hover.cable} 
-              style={this.state.hover.position}
-            /> 
-            : null
-        }
+        this.state.hover.cable 
+          ? <CableTip 
+            info={this.state.hover.cable} 
+            style={this.state.hover.position}
+          /> 
+          : null
+      }
 
-
-    </div>
+    </Container>
 
 }
 

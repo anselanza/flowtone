@@ -6,7 +6,7 @@ class Toybox extends Component {
     <Container className="toybox">
       <h2>Toybox</h2>
       {this.props.widgets && this.props.widgets.map(widget => (
-        <div>
+        <div key={widget.id}>
           <span>{widget.name}</span> 
         </div>
       ))}

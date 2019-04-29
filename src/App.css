@@ -1,58 +1,12 @@
-.board {
-  position: absolute;
+.board-stage {
   width: 100vw;
   height: 100vh;
-}
-
-.side-panel {
-  position: absolute;
-  width: 15vw;
-  height: 80vh;
-  top: 0;
-  right: 0;
-  padding: 16px;
-  background-color: #ddd;
-}
-
-.cable-tip {
-  position: absolute;
-  width: 128px;
-  padding: 8px;
-  background-color: #ddd;
-  font-size: 10px;
-  box-shadow: 5px 5px 5px #999
-}
-
-.inspector {
-  position: absolute;
-  top: 0;
-}
-
-.controls {
-  position: absolute;
-  bottom: 0
-}
-
-.board-stage {
   position: absolute;
   top: 0;
   left: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.toybox {
-  max-width: 18vw;
-  margin: 16px;
-  padding: 8px;
-  background-color: #ddd;
-  border: 1px solid #333;
-  box-shadow: 5px 5px 5px #999
+.side-panel {
+  position: absolute;
+  right: 0;
 }
