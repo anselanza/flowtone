@@ -23,6 +23,7 @@
   margin: 8px;
   padding: 16px;
   border: 1px #ddd solid;
+  background-color: rgba(0, 0, 0, 0.75);
 }
 
 .master-controls {
