@@ -8,10 +8,7 @@ import Tone from 'tone';
 
 import Schema from '../data/Schema';
 import { WIDGETS, CABLES } from '../data/Constants';
-import Inspector from './Inspector';
-import CableTip from './CableTip';
 import SidePanel from './SidePanel';
-import MasterControls from './MasterControls';
 
 let nodes = [];
 
@@ -96,7 +93,7 @@ const isMaster = widget => widget.type === 'Tone.Master';
 
 const getWidget = (widgets, id) => widgets.find(w => w.id === id);
 
-const getSchema = (widget) => Schema.nodes.find(node => node.type === widget.type);
+const getSchema = widget => widget ? Schema.nodes.find(node => node.type === widget.type) : null;
 
 const widgetPosition = (widget, index) =>
   widget.position !== undefined
@@ -297,14 +294,13 @@ class Board extends Component {
         </Stage>
       </div>
 
-      {this.state.selectedWidgetId !== null &&
         <SidePanel 
           widget={getWidget(this.props.widgets, this.state.selectedWidgetId)} 
           schema={getSchema(getWidget(this.props.widgets, this.state.selectedWidgetId))}
           types={Schema.types}
           updateValue={this.props.changeValue}
+          startOrStopAll={this.props.startOrStopAll}
         />
-      }
 
       {this.state.hover &&
         this.state.hover.cable 
@@ -313,10 +309,6 @@ class Board extends Component {
             </Tooltip>
           : null
       }
-
-      <MasterControls
-        startOrStopAll={this.props.startOrStopAll}
-      />
 
     </Container>
 
