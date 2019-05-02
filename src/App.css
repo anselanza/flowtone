@@ -24,3 +24,9 @@
   padding: 16px;
   border: 1px #ddd solid;
 }
+
+.master-controls {
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px #666 solid;
+}

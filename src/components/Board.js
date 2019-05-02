@@ -44,7 +44,7 @@ const getCableInfo = (cable, widgets) => ({
   }
 });
 
-const changeValue = (widgetId, input, value) => {
+const updateValue = (widgetId, input, value) => {
   // Side effect...
   let node = nodes.find(n => n.id === widgetId);
   changeNodeValue(node.toneRef, input.id, value);
@@ -90,7 +90,7 @@ const addWidget = (widget) => {
 
 const actionCreators = {
   moveWidget,
-  changeValue,
+  updateValue,
   startOrStopAll,
   addWidget
 };
@@ -295,7 +295,11 @@ class Board extends Component {
   render = () => 
     <Container className="board">
 
-      <Toybox widgets={Schema.nodes} addWidget={this.props.addWidget} />
+      <Toybox 
+        widgets={Schema.nodes} 
+        addWidget={this.props.addWidget} 
+        startOrStopAll={this.props.startOrStopAll} 
+      />
 
       <div className="board-stage">
         <Stage width={window.innerWidth} height={window.innerHeight} >
@@ -310,7 +314,7 @@ class Board extends Component {
           widget={getWidget(this.props.widgets, this.state.selectedWidgetId)} 
           schema={getSchema(getWidget(this.props.widgets, this.state.selectedWidgetId))}
           types={Schema.types}
-          updateValue={this.props.changeValue}
+          updateValue={this.props.updateValue}
           startOrStopAll={this.props.startOrStopAll}
         />
 

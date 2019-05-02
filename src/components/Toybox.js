@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Form, Row, ListGroup } from 'react-bootstrap';
 
+import MasterControls from './MasterControls';
 
 class Toybox extends Component {
 
@@ -22,6 +23,11 @@ class Toybox extends Component {
     <div className="toybox">
 
       <Container>
+
+        <MasterControls
+          startOrStopAll={this.props.startOrStopAll}
+        />
+
         <Form>
             <Form.Group as={Row} controlId="searchToybox" >
               <Form.Control 
