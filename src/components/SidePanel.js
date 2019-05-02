@@ -17,14 +17,6 @@ class SidePanel extends Component {
           </Col>
         </Row>
       
-        <Row>
-            <Col>
-              <div className="controls">
-                <button onClick={() => this.startAll()}>Start</button>
-                <button onClick={() => this.stopAll()}>Stop</button>
-              </div>
-            </Col>
-        </Row>
       </Container>
   </div>
   )

@@ -1,6 +1,7 @@
 import { createStore } from 'redux'
 
 import DummyData from '../data/DummyData';
+import DefaultEmptyState from '../data/Default';
 
 const moveWidget = (widget, position) => ({
   ...widget,
@@ -45,7 +46,7 @@ const widgets = (widgets = [], action) => {
   }
 };
 
-const cables = (state = [], action) => {
+const cables = (state = DefaultEmptyState, action) => {
   return state;
 };
 

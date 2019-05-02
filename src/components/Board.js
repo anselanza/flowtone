@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Tooltip } from 'react-bootstrap';
 
 import { Stage, Layer, Group, Rect, Text, Arrow } from 'react-konva';
 import Konva from 'konva';
@@ -11,6 +11,7 @@ import { WIDGETS, CABLES } from '../data/Constants';
 import Inspector from './Inspector';
 import CableTip from './CableTip';
 import SidePanel from './SidePanel';
+import MasterControls from './MasterControls';
 
 let nodes = [];
 
@@ -43,7 +44,7 @@ const getCableInfo = (cable, widgets) => ({
     ...cable.to,
     widget: getWidget(widgets, cable.to.id)
   }
-})
+});
 
 const changeValue = (widgetId, input, value) => {
   // Side effect...
@@ -61,9 +62,30 @@ const changeValue = (widgetId, input, value) => {
   };
 };
 
+const startOrStopAll = (shouldStart) => {
+  // Side effects...
+  nodes.forEach(n => {
+    if (shouldStart === true) {
+      if (n.toneRef.start !== undefined) {
+        n.toneRef.start();
+      }
+    } else {
+      if (n.toneRef.stop !== undefined) {
+        n.toneRef.stop();
+      }
+    }
+  });
+
+  // State update...
+  return shouldStart === true
+    ? { type: 'ALL_START' }
+    : { type: 'ALL_STOP '}
+;}
+
 const actionCreators = {
   moveWidget,
-  changeValue
+  changeValue,
+  startOrStopAll
 };
 
 
@@ -262,25 +284,7 @@ class Board extends Component {
 
     });
   }
-
-  startAll = () => {
-    nodes.forEach(n => {
-      if (n.toneRef.start !== undefined) {
-        console.log('start', n);
-        n.toneRef.start();
-      }
-    });
-  }
-
-  stopAll = () => {
-    nodes.forEach(n => {
-      if (n.toneRef.stop !== undefined) {
-        n.toneRef.stop();
-      }
-    });
-
-  }
-
+ 
   render = () => 
     <Container className="board">
 
@@ -304,12 +308,15 @@ class Board extends Component {
 
       {this.state.hover &&
         this.state.hover.cable 
-          ? <CableTip 
-            info={this.state.hover.cable} 
-            style={this.state.hover.position}
-          /> 
+          ? <Tooltip>
+              Boo
+            </Tooltip>
           : null
       }
+
+      <MasterControls
+        startOrStopAll={this.props.startOrStopAll}
+      />
 
     </Container>
 
