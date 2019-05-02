@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Form, Row } from 'react-bootstrap';
+import { Container, Form, Row, ListGroup } from 'react-bootstrap';
 
 
 class Toybox extends Component {
@@ -14,14 +14,16 @@ class Toybox extends Component {
 
   widgetList = () => this.state.searchString === ''
     ? this.props.widgets
-    : this.props.widgets.filter(w => w.name.toLowerCase().includes(this.state.searchString.toLowerCase()));
+    : this.props.widgets.filter(w => 
+      w.name.toLowerCase().includes(this.state.searchString.toLowerCase())
+    );
 
   render = () => (
     <div className="toybox">
 
       <Container>
         <Form>
-            <Form.Group as={Row} controlId="searchToybox">
+            <Form.Group as={Row} controlId="searchToybox" >
               <Form.Control 
                 size="sm" 
                 type="text" 
@@ -31,13 +33,18 @@ class Toybox extends Component {
               />
             </Form.Group>
     
-            {this.widgetList().map(widget => (
-              <div key={widget.id}>
-                <span>{widget.name}</span> 
-              </div>
-            ))}
-    
-            </Form>
+            <ListGroup className="add-widget">
+              {this.widgetList().map(widget => (
+                <ListGroup.Item 
+                  onClick={() => this.props.addWidget(widget)} 
+                  key={"add-widget"+widget.id} 
+                >
+                  <span>+{' '}</span>
+                  <span>{widget.name}</span> 
+                  </ListGroup.Item>
+                ))}
+            </ListGroup>
+          </Form>
       </Container>
 
     </div>

@@ -9,6 +9,7 @@ import Tone from 'tone';
 import Schema from '../data/Schema';
 import { WIDGETS, CABLES } from '../data/Constants';
 import SidePanel from './SidePanel';
+import Toybox from './Toybox';
 
 let nodes = [];
 
@@ -79,10 +80,19 @@ const startOrStopAll = (shouldStart) => {
     : { type: 'ALL_STOP '}
 ;}
 
+const addWidget = (widget) => {
+  console.log('addWidget', widget);
+  return {
+    type: 'WIDGET_ADD',
+    widget
+  }
+}
+
 const actionCreators = {
   moveWidget,
   changeValue,
-  startOrStopAll
+  startOrStopAll,
+  addWidget
 };
 
 
@@ -284,6 +294,8 @@ class Board extends Component {
  
   render = () => 
     <Container className="board">
+
+      <Toybox widgets={Schema.nodes} addWidget={this.props.addWidget} />
 
       <div className="board-stage">
         <Stage width={window.innerWidth} height={window.innerHeight} >

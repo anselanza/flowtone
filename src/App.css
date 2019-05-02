@@ -17,6 +17,7 @@
 
 .toybox {
   position: absolute;
+  z-index: 2;
   left: 0;
   max-width: 20vw;
   margin: 8px;

@@ -25,8 +25,24 @@ const updateValue = (widget, newValue) => ({
   values: createOrUpdateValue(widget.values, newValue)
 });
 
+const newWidget = (widgetSchema, id) => ({
+  id,
+  name: widgetSchema.name,
+  type: widgetSchema.type,
+  position: { x: window.innerWidth /2, y: window.innerHeight / 2 }
+});
+
+const getNextId = (widgets) => widgets.length;
+
 const widgets = (widgets = [], action) => {
   switch (action.type) {
+
+    case 'WIDGET_ADD': 
+      return [
+        ...widgets,
+        newWidget(action.widget, getNextId(widgets))
+      ];
+
     case 'WIDGET_MOVE': 
       return widgets.map(w => 
         w.id === action.id
@@ -34,12 +50,12 @@ const widgets = (widgets = [], action) => {
           : w
       );
 
-     case 'WIDGET_SET_VALUE':
-        return widgets.map(w =>
-          w.id === action.id
-            ? updateValue(w, action.value)
-            : w
-        );
+    case 'WIDGET_SET_VALUE':
+      return widgets.map(w =>
+        w.id === action.id
+          ? updateValue(w, action.value)
+          : w
+      );
 
     default:
       return widgets;
