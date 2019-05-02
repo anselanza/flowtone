@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 import { Container, Row, Col, Tooltip } from 'react-bootstrap';
 
 import { Stage, Layer, Group, Rect, Text, Arrow } from 'react-konva';
-import Konva from 'konva';
+
 import Tone from 'tone';
 
 import Schema from '../data/Schema';
 import { WIDGETS, CABLES } from '../data/Constants';
+import Widget from './Widget';
 import SidePanel from './SidePanel';
 import Toybox from './Toybox';
 
@@ -86,13 +87,13 @@ const addWidget = (widget) => {
     type: 'WIDGET_ADD',
     widget
   }
-}
+};
 
 const actionCreators = {
   moveWidget,
   updateValue,
   startOrStopAll,
-  addWidget
+  addWidget,
 };
 
 
@@ -104,11 +105,6 @@ const isMaster = widget => widget.type === 'Tone.Master';
 const getWidget = (widgets, id) => widgets.find(w => w.id === id);
 
 const getSchema = widget => widget ? Schema.nodes.find(node => node.type === widget.type) : null;
-
-const widgetPosition = (widget, index) =>
-  widget.position !== undefined
-    ? widget.position
-    : ( {x: WIDGETS.SIZE/2 + index * WIDGETS.SIZE*1.5, y: WIDGETS.SIZE/2 } )
 
 const getWidgetCables = (widget, cables) => ({
   in: cables.filter(c => c.to.id === widget.id),
@@ -158,61 +154,6 @@ class Board extends Component {
     selectedWidgetId: null
   }
 
-  drawWidget = (w, index) =>
-    <Group 
-      key={w.id}
-      position= {widgetPosition(w, index)}
-      draggable
-      onMouseEnter={ () => this.setState({ 
-        hover: {
-          widget: w
-        }
-      })}
-      onMouseLeave={ () => {
-        this.setState({ hover: null});
-      }}
-      onMouseDown={ e => {
-        this.setState({ selectedWidgetId: w.id });
-      }}
-      onDragStart={(e) => {
-        this.setState({ dragging: true });
-        e.target.setAttrs({
-          scaleX: 1.1,
-          scaleY: 1.1
-        });
-      }}
-      onDragEnd={(e) => {
-        this.setState({ dragging: false });
-        e.target.to({
-          duration: 0.5,
-          easing: Konva.Easings.ElasticEaseOut,
-          scaleX: 1,
-          scaleY: 1,
-        });
-        const { x, y } = e.currentTarget.attrs;
-        this.props.moveWidget(w.id, { x, y });
-      }}
-      >
-      <Rect 
-        width={WIDGETS.SIZE} height={WIDGETS.SIZE} 
-        position={ { x: -WIDGETS.SIZE/2, y: -WIDGETS.SIZE/2 }}
-        cornerRadius={10}
-        fill={"#2F80ED"} 
-      />
-      <Text
-        text={w.name}
-        fontFamily="monospace"
-        fill={"#ffffff"}
-        fontSize={10}
-        align="center"
-        verticalAlign="middle"
-        position={ { x: -WIDGETS.SIZE/2, y: -WIDGETS.SIZE/2 }}
-        height={WIDGETS.SIZE}
-        width={WIDGETS.SIZE}
-      />
-    </Group>
-
- 
   drawCable = (cable) => 
       <Arrow
         key={`cable-${cable.from.id}-${cable.to.id}`}
@@ -299,6 +240,10 @@ class Board extends Component {
 
     });
   }
+
+  inspectWidget = (id) => {
+    this.setState({ selectedWidgetId: id});
+  }
  
   render = () => 
     <Container className="board">
@@ -313,7 +258,9 @@ class Board extends Component {
         <Stage width={window.innerWidth} height={window.innerHeight} >
           <Layer>
             {this.props.cables && this.props.cables.map( c => this.drawCable(c) )}      
-            {this.props.widgets && this.props.widgets.map( (w, index) => this.drawWidget(w, index)) }
+            {this.props.widgets && this.props.widgets.map( w => 
+              <Widget widget={w} moveWidget={this.props.moveWidget} inspectWidget={this.inspectWidget} /> 
+            ) }
           </Layer>
         </Stage>
       </div>

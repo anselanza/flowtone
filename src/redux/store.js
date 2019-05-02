@@ -57,7 +57,7 @@ const widgets = (widgets = [], action) => {
           : w
       );
 
-    default:
+     default:
       return widgets;
   }
 };
