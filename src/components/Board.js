@@ -163,6 +163,14 @@ class Board extends Component {
       key={w.id}
       position= {widgetPosition(w, index)}
       draggable
+      onMouseEnter={ () => this.setState({ 
+        hover: {
+          widget: w
+        }
+      })}
+      onMouseLeave={ () => {
+        this.setState({ hover: null});
+      }}
       onMouseDown={ e => {
         this.setState({ selectedWidgetId: w.id });
       }}
@@ -215,7 +223,7 @@ class Board extends Component {
         stroke={CABLES.COLOR}
         strokeWidth={CABLES.THICKNESS}
         opacity={this.state.dragging ? 0.05 : 1}
-        onMouseOver={(e) => 
+        onMouseEnter={(e) => 
           this.setState({ 
             hover: {
               cable: getCableInfo(cable, this.props.widgets),
