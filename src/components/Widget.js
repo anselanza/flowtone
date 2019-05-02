@@ -5,22 +5,19 @@ import Konva from 'konva';
 import { WIDGETS } from '../data/Constants';
 
 class Widget extends Component {
+
+  state = {
+    hover: false
+  }
+
   render = () =>
     <Group 
       key={this.props.widget.id}
       position= {this.props.widget.position}
       draggable
-      onMouseEnter={ () => this.setState({ 
-        hover: {
-          widget: this.props.widget
-        }
-      })}
-      onMouseLeave={ () => {
-        this.setState({ hover: null});
-      }}
-      onMouseDown={ e => {
-        this.props.inspectWidget(this.props.widget.id);
-      }}
+      onMouseEnter={ () => this.setState({ hover: true }) }
+      onMouseLeave={ () => this.setState({ hover: false }) }
+      onMouseDown={ () => this.props.inspectWidget(this.props.widget.id) }
       onDragStart={(e) => {
         this.setState({ dragging: true });
         e.target.setAttrs({
@@ -44,7 +41,7 @@ class Widget extends Component {
         width={WIDGETS.SIZE} height={WIDGETS.SIZE} 
         position={ { x: -WIDGETS.SIZE/2, y: -WIDGETS.SIZE/2 }}
         cornerRadius={10}
-        fill={"#2F80ED"} 
+        fill={this.state.hover === true ? "#00FF00" : "#2F80ED"} 
       />
       <Text
         text={this.props.widget.name}

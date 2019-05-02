@@ -244,6 +244,15 @@ class Board extends Component {
   inspectWidget = (id) => {
     this.setState({ selectedWidgetId: id});
   }
+
+  // widgetHover = (id, active) => {
+  //   console.log('hover widget', id, active);
+  //   if (active === true) {
+  //     this.setState({ hover: { widget: getWidget(this.props.widgets, id)}});
+  //   } else {
+  //     this.setState({ hover: null });
+  //   }
+  // }
  
   render = () => 
     <Container className="board">
@@ -259,7 +268,11 @@ class Board extends Component {
           <Layer>
             {this.props.cables && this.props.cables.map( c => this.drawCable(c) )}      
             {this.props.widgets && this.props.widgets.map( w => 
-              <Widget widget={w} moveWidget={this.props.moveWidget} inspectWidget={this.inspectWidget} /> 
+              <Widget 
+                widget={w} 
+                moveWidget={this.props.moveWidget} 
+                inspectWidget={this.inspectWidget} 
+              /> 
             ) }
           </Layer>
         </Stage>
