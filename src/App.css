@@ -15,6 +15,10 @@
   border: 1px #ddd solid;
 }
 
+.semi-trans-bg {
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
 .toybox {
   position: absolute;
   z-index: 2;
@@ -23,7 +27,6 @@
   margin: 8px;
   padding: 16px;
   border: 1px #ddd solid;
-  background-color: rgba(0, 0, 0, 0.75);
 }
 
 .master-controls {

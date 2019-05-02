@@ -20,7 +20,7 @@ class Toybox extends Component {
     );
 
   render = () => (
-    <div className="toybox">
+    <div className="toybox semi-trans-bg">
 
       <Container>
 

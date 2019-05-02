@@ -8,7 +8,7 @@ class SidePanel extends Component {
     const selected = this.props.selectedWidgetId !== null && this.props.schema !== null && this.props.widget !== undefined;
 
     return (
-      <div className="side-panel">
+      <div className="side-panel semi-trans-bg">
         <Container>
 
           <Row>
