@@ -54,6 +54,11 @@ class Widget extends Component {
         height={WIDGETS.SIZE}
         width={WIDGETS.SIZE}
       />
+      {this.state.hover &&
+        <Text
+          text={JSON.stringify(this.props.schema)}
+        />
+      }
     </Group>
 }
 

@@ -54,23 +54,23 @@ export default {
           id: 0
         }
       },
-      {
-        id: 'cable1',
-        from: {
-          id: 2
-        },
-        to: {
-          id: 3
-        }
-      },
-      {
-        id: 'cable2',
-        from: {
-          id: 3
-        },
-        to: {
-          id: 0
-        }
-      }
+      // {
+      //   id: 'cable1',
+      //   from: {
+      //     id: 2
+      //   },
+      //   to: {
+      //     id: 3
+      //   }
+      // },
+      // {
+      //   id: 'cable2',
+      //   from: {
+      //     id: 3
+      //   },
+      //   to: {
+      //     id: 0
+      //   }
+      // }
     ]
   }

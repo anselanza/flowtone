@@ -32,18 +32,14 @@ class Cable extends React.Component {
         stroke={CABLES.COLOR}
         strokeWidth={CABLES.THICKNESS}
         opacity={this.props.dragging ? 0.05 : 1}
-        onMouseEnter={(e) => 
-          this.setState({ 
-            hover: {
-              cable: getCableInfo(this.props.cable, this.props.widgets),
-              position: { 
-                left: `${e.evt.clientX}px`,
-                top: `${e.evt.clientY}px`
-              }
-            } 
-          })
-        }
-        onMouseLeave={() => setTimeout(() => this.setState({ hover: null }), 1000)}
+        onMouseEnter={(e) => this.props.hover({
+          cable: getCableInfo(this.props.cable, this.props.widgets),
+            position: { 
+              left: `${e.evt.clientX}px`,
+              top: `${e.evt.clientY}px`
+            }
+        })}
+        // onMouseLeave={() => setTimeout(() => this.props.hover(null), 1000)}
       />
 
     )

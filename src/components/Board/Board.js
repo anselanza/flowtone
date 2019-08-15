@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Container, Tooltip } from 'react-bootstrap';
 
+import './Board.scss';
+
 import { Stage, Layer } from 'react-konva';
 
 import Tone from 'tone';
@@ -9,9 +11,7 @@ import Tone from 'tone';
 import Schema from '../../data/Schema';
 import Widget from './Contents/Widget';
 import SidePanel from '../Controls/SidePanel/SidePanel';
-import Toybox from '../Controls/Toybox/Toybox';
 import Cable from './Contents/Cable';
-import MasterControls from '../Controls/MasterControls/MasterControls';
 
 import { WIDGETS, CABLES } from '../../data/Constants';
 
@@ -149,8 +149,7 @@ class Board extends Component {
     selectedWidgetId: null
   }
 
-
-  componentDidMount = () => {
+  drawContents = () => {
     this.props.widgets.forEach(widget => {
 
       let node;
@@ -213,28 +212,37 @@ class Board extends Component {
     });
   }
 
+  componentDidMount = () => {
+    this.drawContents();
+  }
+
   inspectWidget = (id) => {
     this.setState({ selectedWidgetId: id});
   }
 
+  hoverCable = (cable) => {
+    this.setState({ hover: cable })
+  }
 
  
   render = () => 
-    <Container className="board">
+    <Container className="Board">
 
       <div className="board-stage">
-        <Stage width={window.innerWidth} height={window.innerHeight} >
+        <Stage width={window.innerWidth} height={window.innerHeight}>
           <Layer>
             {this.props.cables && this.props.cables.map( c => 
               <Cable 
                 cable={c} widgets={this.props.widgets}
                 points={calculateLinePoints(c, this.props.widgets, this.props.cables)}
                 dragging={this.state.dragging}
-              /> 
+                hover={this.hoverCable}
+              />
             )}      
             {this.props.widgets && this.props.widgets.map( w => 
               <Widget 
                 widget={w} 
+                schema={getSchema(w)}
                 moveWidget={this.props.moveWidget} 
                 inspectWidget={this.inspectWidget} 
               /> 
@@ -251,13 +259,7 @@ class Board extends Component {
         startOrStopAll={this.props.startOrStopAll}
     />
 
-      {this.state.hover &&
-        this.state.hover.cable 
-          ? <Tooltip>
-              Boo
-            </Tooltip>
-          : null
-      }
+     
 
     </Container>
 

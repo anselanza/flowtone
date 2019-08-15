@@ -1,0 +1,8 @@
+.Board {
+  &.container {
+    height: 100vh;
+  }
+  .board-stage {
+    position: absolute;
+  }
+}
