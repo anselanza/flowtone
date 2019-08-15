@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Col, Container} from 'react-bootstrap';
 
 const loadOrUseDefaultValues = (input, widgetValues) => {
   if (widgetValues === undefined || widgetValues.length === 0) {
@@ -15,8 +16,9 @@ const loadOrUseDefaultValues = (input, widgetValues) => {
 class Inspector extends Component {
 
   render = () =>
-    <div className="inspector">
-        <h3>#{this.props.widget.id}: {this.props.widget.name}</h3>
+    <Col>
+      <Container>
+        <h4>#{this.props.widget.id}: {this.props.widget.name}</h4>
         <form>
           {this.props.schema && this.props.schema.inputs.map(input => 
             <div key={input.id}>
@@ -32,7 +34,8 @@ class Inspector extends Component {
             </div>
           )}
         </form>
-    </div>
+      </Container>
+    </Col>
 
 }
 

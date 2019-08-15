@@ -2,8 +2,8 @@
 import React from 'react';
 import { Arrow } from 'react-konva';
 
-import { CABLES } from '../../data/Constants';
-import { getWidget } from './Board';
+import { CABLES } from '../../../data/Constants';
+import { getWidget } from '../Board';
 
 
 

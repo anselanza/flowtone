@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { Container, Row, Col, Tooltip } from 'react-bootstrap';
+import { Container, Tooltip } from 'react-bootstrap';
 
-import { Stage, Layer, Group, Rect, Text, Arrow } from 'react-konva';
+import { Stage, Layer } from 'react-konva';
 
 import Tone from 'tone';
 
 import Schema from '../../data/Schema';
-import Widget from './Widget';
-import SidePanel from '../Controls/SidePanel';
-import Toybox from '../Controls/Toybox';
-import Cable from './Cable';
+import Widget from './Contents/Widget';
+import SidePanel from '../Controls/SidePanel/SidePanel';
+import Toybox from '../Controls/Toybox/Toybox';
+import Cable from './Contents/Cable';
+import MasterControls from '../Controls/MasterControls/MasterControls';
 
 import { WIDGETS, CABLES } from '../../data/Constants';
 
@@ -216,24 +217,10 @@ class Board extends Component {
     this.setState({ selectedWidgetId: id});
   }
 
-  
-  // widgetHover = (id, active) => {
-  //   console.log('hover widget', id, active);
-  //   if (active === true) {
-  //     this.setState({ hover: { widget: getWidget(this.props.widgets, id)}});
-  //   } else {
-  //     this.setState({ hover: null });
-  //   }
-  // }
+
  
   render = () => 
     <Container className="board">
-
-      <Toybox 
-        widgets={Schema.nodes} 
-        addWidget={this.props.addWidget} 
-        startOrStopAll={this.props.startOrStopAll} 
-      />
 
       <div className="board-stage">
         <Stage width={window.innerWidth} height={window.innerHeight} >
@@ -256,13 +243,13 @@ class Board extends Component {
         </Stage>
       </div>
 
-        <SidePanel 
-          widget={getWidget(this.props.widgets, this.state.selectedWidgetId)} 
-          schema={getSchema(getWidget(this.props.widgets, this.state.selectedWidgetId))}
-          types={Schema.types}
-          updateValue={this.props.updateValue}
-          startOrStopAll={this.props.startOrStopAll}
-        />
+      <SidePanel 
+        widget={getWidget(this.props.widgets, this.state.selectedWidgetId)} 
+        schema={getSchema(getWidget(this.props.widgets, this.state.selectedWidgetId))}
+        types={Schema.types}
+        updateValue={this.props.updateValue}
+        startOrStopAll={this.props.startOrStopAll}
+    />
 
       {this.state.hover &&
         this.state.hover.cable 

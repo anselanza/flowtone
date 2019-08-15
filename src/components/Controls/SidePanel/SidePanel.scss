@@ -1,0 +1,19 @@
+.SidePanel {
+  position: absolute;
+  right: 0;
+  width: 25vw;
+  box-shadow: -1px 2px 8px #000;
+  background-color: #444;
+  padding-top: 16px;
+  // margin-right: 16px;
+
+  .row {
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid black;
+
+    &:last-child {
+      border: 0;
+    }
+  }
+}

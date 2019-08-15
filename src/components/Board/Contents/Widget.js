@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Group, Rect, Text } from 'react-konva';
 import Konva from 'konva';
 
-import { WIDGETS } from '../../data/Constants';
+import { WIDGETS } from '../../../data/Constants';
 
 class Widget extends Component {
 

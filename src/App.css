@@ -5,32 +5,3 @@
   top: 0;
   left: 0;
 }
-
-.side-panel {
-  position: absolute;
-  right: 0;
-  max-width: 20vw;
-  margin: 8px;
-  padding: 16px;
-  border: 1px #ddd solid;
-}
-
-.semi-trans-bg {
-  background-color: rgba(0, 0, 0, 0.75);
-}
-
-.toybox {
-  position: absolute;
-  z-index: 2;
-  left: 0;
-  max-width: 20vw;
-  margin: 8px;
-  padding: 16px;
-  border: 1px #ddd solid;
-}
-
-.master-controls {
-  padding: 16px;
-  margin-bottom: 16px;
-  border: 1px #666 solid;
-}

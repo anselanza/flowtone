@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import Inspector from './Inspector';
+import './SidePanel.scss';
+
+import Inspector from '../Inspector/Inspector';
+import MasterControls from '../MasterControls/MasterControls';
+import Toybox from '../Toybox/Toybox';
+
+import Schema from '../../../data/Schema';
 
 class SidePanel extends Component {
   render = () => {
@@ -8,11 +14,22 @@ class SidePanel extends Component {
     const selected = this.props.selectedWidgetId !== null && this.props.schema !== null && this.props.widget !== undefined;
 
     return (
-      <div className="side-panel semi-trans-bg">
+      <div className="SidePanel">
         <Container>
+        
+          <Row className="MasterControls">
+            <MasterControls />
+          </Row>
 
           <Row>
-            <Col>
+            <Toybox 
+              widgets={Schema.nodes} 
+              addWidget={this.props.addWidget} 
+              startOrStopAll={this.props.startOrStopAll} 
+            />
+          </Row>
+
+          <Row>
               {selected === true
                 ? <Inspector 
                     widget={this.props.widget} 
@@ -21,12 +38,12 @@ class SidePanel extends Component {
                     updateValue={this.props.updateValue}
                   />
                 
-                : <div>
+                : <Container>
                   Nothing selected.
-                </div>
+                </Container>
               }
-            </Col>
           </Row>
+
           </Container>
       </div>
     );
