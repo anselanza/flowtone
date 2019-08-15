@@ -6,11 +6,13 @@ import { Stage, Layer, Group, Rect, Text, Arrow } from 'react-konva';
 
 import Tone from 'tone';
 
-import Schema from '../data/Schema';
-import { WIDGETS, CABLES } from '../data/Constants';
+import Schema from '../../data/Schema';
 import Widget from './Widget';
-import SidePanel from './SidePanel';
-import Toybox from './Toybox';
+import SidePanel from '../Controls/SidePanel';
+import Toybox from '../Controls/Toybox';
+import Cable from './Cable';
+
+import { WIDGETS, CABLES } from '../../data/Constants';
 
 let nodes = [];
 
@@ -33,17 +35,7 @@ const changeNodeValue = (node, inputId, value) => {
 
 const getNode = (id) => nodes.find(n => n.id === id);
 
-const getCableInfo = (cable, widgets) => ({
-  ...cable,
-  from: {
-    ...cable.from,
-    widget: getWidget(widgets, cable.from.id)
-  },
-  to: {
-    ...cable.to,
-    widget: getWidget(widgets, cable.to.id)
-  }
-});
+
 
 const updateValue = (widgetId, input, value) => {
   // Side effect...
@@ -97,15 +89,6 @@ const actionCreators = {
 };
 
 
-
-
-
-const isMaster = widget => widget.type === 'Tone.Master';
-
-const getWidget = (widgets, id) => widgets.find(w => w.id === id);
-
-const getSchema = widget => widget ? Schema.nodes.find(node => node.type === widget.type) : null;
-
 const getWidgetCables = (widget, cables) => ({
   in: cables.filter(c => c.to.id === widget.id),
   out: cables.filter(c => c.from.id === widget.id)
@@ -115,6 +98,7 @@ const indexOfCable = (cable, cables) =>
   cables.reduce( (result, c, index) =>
   c.id === cable.id ? index : result,
 undefined)
+
 
 const calculateLinePoints = (cable, widgets, cables) => {
   let fromWidget = widgets.find(w => w.id === cable.from.id);
@@ -147,6 +131,16 @@ const calculateLinePoints = (cable, widgets, cables) => {
 }
 
 
+
+const isMaster = widget => widget.type === 'Tone.Master';
+
+export const getWidget = (widgets, id) => widgets.find(w => w.id === id);
+
+const getSchema = widget => widget ? Schema.nodes.find(node => node.type === widget.type) : null;
+
+
+
+
 class Board extends Component {
 
   state = {
@@ -154,29 +148,6 @@ class Board extends Component {
     selectedWidgetId: null
   }
 
-  drawCable = (cable) => 
-      <Arrow
-        key={`cable-${cable.from.id}-${cable.to.id}`}
-        points={calculateLinePoints(cable, this.props.widgets, this.props.cables)}
-        tension={CABLES.TENSION}
-        pointerWidth={CABLES.POINTER_WIDTH}
-        pointerLength={CABLES.POINTER_LENGTH}
-        stroke={CABLES.COLOR}
-        strokeWidth={CABLES.THICKNESS}
-        opacity={this.state.dragging ? 0.05 : 1}
-        onMouseEnter={(e) => 
-          this.setState({ 
-            hover: {
-              cable: getCableInfo(cable, this.props.widgets),
-              position: { 
-                left: `${e.evt.clientX}px`,
-                top: `${e.evt.clientY}px`
-              }
-            } 
-          })
-        }
-        onMouseLeave={() => setTimeout(() => this.setState({ hover: null }), 1000)}
-      />
 
   componentDidMount = () => {
     this.props.widgets.forEach(widget => {
@@ -245,6 +216,7 @@ class Board extends Component {
     this.setState({ selectedWidgetId: id});
   }
 
+  
   // widgetHover = (id, active) => {
   //   console.log('hover widget', id, active);
   //   if (active === true) {
@@ -266,7 +238,13 @@ class Board extends Component {
       <div className="board-stage">
         <Stage width={window.innerWidth} height={window.innerHeight} >
           <Layer>
-            {this.props.cables && this.props.cables.map( c => this.drawCable(c) )}      
+            {this.props.cables && this.props.cables.map( c => 
+              <Cable 
+                cable={c} widgets={this.props.widgets}
+                points={calculateLinePoints(c, this.props.widgets, this.props.cables)}
+                dragging={this.state.dragging}
+              /> 
+            )}      
             {this.props.widgets && this.props.widgets.map( w => 
               <Widget 
                 widget={w} 
