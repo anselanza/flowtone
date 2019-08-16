@@ -12,7 +12,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div className="App">
-          <Board />
+          <Board debug={true} />
         </div>
       </Provider>
     );

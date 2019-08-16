@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Group, Rect, Text } from 'react-konva';
 import Konva from 'konva';
 
-import { WIDGETS } from '../../../data/Constants';
+import { WIDGETS } from '../../../../data/Constants';
+import WidgetPort from './WidgetPort/WidgetPort.tsx';
 
 class Widget extends Component {
 
@@ -54,10 +55,17 @@ class Widget extends Component {
         height={WIDGETS.SIZE}
         width={WIDGETS.SIZE}
       />
-      {this.state.hover &&
-        <Text
-          text={JSON.stringify(this.props.schema)}
-        />
+      {this.props.schema &&
+        this.props.schema.inputs.map( (i, index) => 
+          <WidgetPort 
+            label={i.name}
+            type='input'
+            boxSize={{ width: WIDGETS.SIZE, height: WIDGETS.SIZE }}
+            index={index}
+            numPorts={this.props.schema.inputs.length}
+            debug={this.props.debug}
+          />
+        )
       }
     </Group>
 }

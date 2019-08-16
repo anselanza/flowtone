@@ -9,7 +9,7 @@ import { Stage, Layer } from 'react-konva';
 import Tone from 'tone';
 
 import Schema from '../../data/Schema';
-import Widget from './Contents/Widget';
+import Widget from './Contents/Widget/Widget';
 import SidePanel from '../Controls/SidePanel/SidePanel';
 import Cable from './Contents/Cable';
 
@@ -245,6 +245,7 @@ class Board extends Component {
                 schema={getSchema(w)}
                 moveWidget={this.props.moveWidget} 
                 inspectWidget={this.inspectWidget} 
+                debug={this.props.debug}
               /> 
             ) }
           </Layer>

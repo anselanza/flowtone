@@ -12,6 +12,13 @@ inputs: (array)
   type: as per ToneJS Types at https://tonejs.github.io/docs/r13/Type
 */
 
+export enum IOscillatorTypes {
+  sine = 'sine',
+  square = 'square',
+  triangle = 'triangle',
+  sawtooth = 'sawtooth'
+}
+
 export default {
 
   types: [
@@ -56,6 +63,12 @@ export default {
           name: 'Base Frequency',
           type: 'Frequency',
           default: 440
+        },
+        {
+          id: 'type',
+          name: 'Oscillator Type',
+          type: 'String',
+          default: IOscillatorTypes.sine
         }
       ]
     }
